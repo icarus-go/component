@@ -7,7 +7,7 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
-	"pmo-test4.yz-intelligence.com/kit/apiconstant"
+	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
 )
 
 var ctxPool sync.Pool
@@ -18,8 +18,8 @@ func init() {
 	}
 }
 
-// core panic恢复，初始化Context
-func core() gin.HandlerFunc {
+// recovery panic恢复，初始化Context
+func recovery() gin.HandlerFunc {
 	return func(ginCtx *gin.Context) {
 		ctx := ctxPool.New().(*Context)
 		ctx.reset(ginCtx)
@@ -58,26 +58,10 @@ func core() gin.HandlerFunc {
 
 				close(ctx.doneChan)
 			}()
-
 			ctx.Next()
 		}()
 
 		<-ctx.doneChan
-
-		// FIXME: 存在内存泄露问题
-		//监听上下文状态
-		// select {
-		// case <-ctx.doneChan:
-		// 	//正常结束
-		// case <-ctx.routerCtx.Done():
-		// 	ctx.routerCancel()
-
-		// 	// TODO: 记录更多完善的中断信息
-		// 	logger.Warning("请求被强制中断")
-
-		// 	// 退出时请求超 Config.Timeout，被强制取消，响应 504
-		// 	ctx.AbortWithStatus(http.StatusGatewayTimeout)
-		// }
 
 		if ctx.IsAborted() {
 			ctxPool.Put(ctx)
@@ -105,5 +89,27 @@ func core() gin.HandlerFunc {
 		}
 
 		ctxPool.Put(ctx)
+	}
+}
+
+//cors 处理跨域请求,支持options访问
+func cors() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		method := c.Request.Method
+
+		origin := c.Request.Header.Get("Origin")
+
+		c.Header("Access-Control-Allow-Origin", origin)
+		c.Header("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token, Authorization, Token,X-Token,X-User-Id")
+		c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS,DELETE,PUT")
+		c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type")
+		c.Header("Access-Control-Allow-Credentials", "true")
+
+		// 放行所有OPTIONS方法
+		if method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusNoContent)
+		}
+		// 处理请求
+		c.Next()
 	}
 }

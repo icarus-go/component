@@ -5,6 +5,7 @@ import (
 	"errors"
 	"html/template"
 	"net/http"
+	"os"
 
 	"syscall"
 
@@ -21,8 +22,7 @@ var (
 
 func init() {
 	var err error
-	Instance, err = New()
-	if err != nil {
+	if Instance, err = New(); err != nil {
 		err = errors.New("Gin Server 创建失败：" + err.Error())
 		panic(err)
 	}
@@ -32,12 +32,6 @@ func init() {
 
 // Run 启动GinServer
 func Run(conf *Config) {
-	if conf.BroadcastIP == "" {
-		conf.BroadcastIP = conf.IP
-	}
-	if conf.BroadcastPort <= 0 {
-		conf.BroadcastPort = conf.Port
-	}
 
 	// 初始化服务配置
 	Instance.Init(conf)

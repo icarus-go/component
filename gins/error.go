@@ -2,7 +2,7 @@ package gins
 
 import (
 	"fmt"
-	"pmo-test4.yz-intelligence.com/kit/apiconstant"
+	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
 	"strconv"
 	"time"
 )

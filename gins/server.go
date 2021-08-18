@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-
 )
 
 // InitFunc 安全初始化函数
@@ -67,24 +66,20 @@ func (gs *Server) Init(conf *Config) {
 		panic("port启动参数不能为空")
 	}
 
-	if conf.BroadcastIP == "" {
-		conf.BroadcastIP = conf.IP
-	}
-
-	if conf.BroadcastPort <= 0 {
-		conf.BroadcastPort = conf.Port
-	}
-
 	if conf.Timeout <= 0 {
 		panic("timeout启动参数不能为空")
 	}
 
-	// 调试模式
-	if conf.Debug {
-		gs.engine.Use(gin.Logger())
-	} else {
-		gin.SetMode(gin.ReleaseMode)
-	}
+	// develop
+	//if conf.Debug == gin.DebugMode {
+	//	gin.SetMode(gin.DebugMode)
+	//} else if conf.Debug == gin.ReleaseMode {
+	//	// 正式
+	//	gin.SetMode(gin.ReleaseMode)
+	//} else {
+	//	// 本地
+	//	gin.SetMode(gin.TestMode)
+	//}
 
 	// 性能监测
 	if conf.Pprof {
@@ -131,6 +126,10 @@ func (gs *Server) Init(conf *Config) {
 		})
 	}
 
+	if conf.Cors {
+		gs.engine.Use(cors())
+	} // 是否开启跨域支持
+
 	// 设置 http server
 	gs.server = &http.Server{
 		Addr:    conf.Addr(),
@@ -140,7 +139,7 @@ func (gs *Server) Init(conf *Config) {
 	gs.Config = conf
 
 	// 加载核心中间件
-	gs.engine.Use(core())
+	gs.engine.Use(recovery())
 
 	// 加载全局中间件
 	gs.Middleware.init()
@@ -170,10 +169,9 @@ func (gs *Server) AddInit(initFunc ...InitFunc) {
 
 // Start 启动服务
 func (gs *Server) Start() {
-
 	err := gs.server.ListenAndServe()
 	if err != nil && err != http.ErrServerClosed {
-
+		print(err)
 	}
 }
 
