@@ -3,19 +3,13 @@ package gins
 import (
 	"net/http"
 	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
+	"pmo-test4.yz-intelligence.com/kit/component/gins/model"
 )
 
 type api struct {
 	ctx       *Context
-	result    ApiResult
+	result    model.ApiResult
 	rawResult []byte
-}
-
-type ApiResult struct {
-	Code   apiconstant.ResponseType `json:"code"`
-	Msg    string                   `json:"msg"`
-	Data   interface{}              `json:"data"`
-	dataKV map[string]interface{}   `json:"-"`
 }
 
 // SetError 设置错误信息
@@ -48,14 +42,20 @@ func (a *api) SetData(data interface{}) {
 	a.result.Data = data
 }
 
+//SetPageResult 设置分页返回
+func (a *api) SetPageResult(list interface{}, total int64, page, pageSize int) {
+	a.result.Code = apiconstant.RESPONSE_OK
+	a.result.Data = model.NewPageResult(list, total, page, pageSize)
+}
+
 // SetDataKV 设置KV，会覆盖掉 SetData
 func (a *api) SetDataKV(key string, value interface{}) {
 	a.result.Code = apiconstant.RESPONSE_OK
-	if a.result.dataKV == nil {
-		a.result.dataKV = make(map[string]interface{})
+	if a.result.DataKV == nil {
+		a.result.DataKV = make(map[string]interface{})
 	}
 
-	a.result.dataKV[key] = value
+	a.result.DataKV[key] = value
 }
 
 // SetRawResult 设置原始内容输出，Content-Type为application/json，优先响应
@@ -69,8 +69,8 @@ func (a *api) json() {
 		return
 	}
 
-	if a.result.dataKV != nil {
-		a.result.Data = a.result.dataKV
+	if a.result.DataKV != nil {
+		a.result.Data = a.result.DataKV
 	}
 
 	if a.result.Data == nil {
