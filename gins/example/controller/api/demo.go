@@ -22,8 +22,7 @@ func (*demo) Add(ctx *gins.Context) {
 		return
 	}
 
-	err = service.Demo.Add(ctx, md)
-	if err != nil {
+	if err = service.Demo.Add(ctx, md); err != nil {
 		ctx.API.SetError(err)
 		return
 	}

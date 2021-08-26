@@ -14,7 +14,7 @@ type APIError struct {
 	data interface{}
 }
 
-// Error 实现 error 接口
+// Error 实现 errors 接口
 func (e *APIError) Error() string {
 	return e.msg
 }

@@ -2,6 +2,7 @@ package service
 
 import (
 	"pmo-test4.yz-intelligence.com/kit/component/gins"
+	"pmo-test4.yz-intelligence.com/kit/component/gins/example/db"
 	"pmo-test4.yz-intelligence.com/kit/component/gins/example/errors"
 	"pmo-test4.yz-intelligence.com/kit/component/gins/example/model"
 )
@@ -24,7 +25,11 @@ func (*demo) Get(ctx *gins.Context, id string) (md *model.Demo, err error) {
 		return
 	}
 
-	return
+	if err = db.Instance.Create(md).Error; err != nil {
+		return nil, err
+	}
+
+	return md, nil
 }
 
 // Add 插入数据

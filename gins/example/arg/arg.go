@@ -6,15 +6,15 @@ import (
 )
 
 var (
-	Name    string
-	Host    string
-	Ip      string
-	Port    int
-	Timeout int
-	Debug   string
-	Pprof   bool
-	Cors    bool
-	Config  *gins.Config
+	Name          string
+	Host          string
+	Ip            string
+	Port          int
+	Timeout       int
+	Debug         string
+	Pprof         bool
+	IsCorsDisable bool
+	Config        *gins.Config
 )
 
 func init() {
@@ -25,7 +25,7 @@ func init() {
 	flag.IntVar(&Timeout, "timeout", 30, "退出时间")
 	flag.StringVar(&Debug, "debug", "debug", "调试模式")
 	flag.BoolVar(&Pprof, "pprof", false, "性能监控模式")
-	flag.BoolVar(&Cors, "cors", false, "是否")
+	flag.BoolVar(&IsCorsDisable, "cors", false, "是否关闭跨域")
 	flag.Parse()
 	if Ip == "" {
 		Ip = "0.0.0.0"
@@ -36,5 +36,5 @@ func init() {
 	if Timeout <= 0 {
 		Timeout = 30
 	}
-	Name = "yz.demo"
+	Name = "yz-intelligence.com/demo"
 }

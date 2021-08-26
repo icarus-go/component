@@ -1,6 +1,8 @@
 package gins
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Config 服务器配置
 type Config struct {
@@ -12,7 +14,7 @@ type Config struct {
 	Timeout         int    // 优雅退出时的超时机制
 	Debug           string // 是否开启调试
 	Pprof           bool   // 是否监控性能
-	Cors            bool   // 是否支持跨域处理
+	IsCorsDisable   bool   // 是否支持跨域处理
 	IsDisableSignal bool   // 是否关闭 signal 信号监听退出，默认：false，设置为 true 时，需主动调用 gins.Stop() 来触发优雅退出
 }
 

@@ -2,12 +2,11 @@ package gins
 
 import (
 	"context"
+	"github.com/gin-gonic/gin"
 	"html/template"
 	"net/http"
 	"net/http/pprof"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 // InitFunc 安全初始化函数
@@ -70,17 +69,6 @@ func (gs *Server) Init(conf *Config) {
 		panic("timeout启动参数不能为空")
 	}
 
-	// develop
-	//if conf.Debug == gin.DebugMode {
-	//	gin.SetMode(gin.DebugMode)
-	//} else if conf.Debug == gin.ReleaseMode {
-	//	// 正式
-	//	gin.SetMode(gin.ReleaseMode)
-	//} else {
-	//	// 本地
-	//	gin.SetMode(gin.TestMode)
-	//}
-
 	// 性能监测
 	if conf.Pprof {
 		pprofGroup := gs.engine.Group("/debug/pprof")
@@ -126,7 +114,7 @@ func (gs *Server) Init(conf *Config) {
 		})
 	}
 
-	if conf.Cors {
+	if !conf.IsCorsDisable {
 		gs.engine.Use(cors())
 	} // 是否开启跨域支持
 
