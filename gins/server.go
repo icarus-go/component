@@ -3,11 +3,9 @@ package gins
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 	"html/template"
 	"net/http"
 	"net/http/pprof"
-	"pmo-test4.yz-intelligence.com/kit/component/gins/logger"
 	"time"
 )
 
@@ -99,7 +97,8 @@ func (gs *Server) Init(conf *Config) {
 		fn()
 	}
 
-	gs.engine.Use(logger.New(zap.L()))
+	gs.engine.Use(gin.Logger())
+
 	if !conf.IsCorsDisable {
 		gs.engine.Use(cors())
 	} // 是否开启跨域支持
