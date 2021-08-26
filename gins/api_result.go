@@ -7,11 +7,11 @@ import (
 
 type api struct {
 	ctx       *Context
-	result    apiResult
+	result    ApiResult
 	rawResult []byte
 }
 
-type apiResult struct {
+type ApiResult struct {
 	Code   apiconstant.ResponseType `json:"code"`
 	Msg    string                   `json:"msg"`
 	Data   interface{}              `json:"data"`
