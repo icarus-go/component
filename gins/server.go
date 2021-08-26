@@ -73,6 +73,37 @@ func (gs *Server) Init(conf *Config) {
 		panic("timeout启动参数不能为空")
 	}
 
+	// 设置 http server
+	gs.server = &http.Server{
+		Addr:    conf.Addr(),
+		Handler: gs.engine,
+	}
+
+	gs.Config = conf
+
+	// 加载核心中间件
+	gs.engine.Use(recovery())
+
+	// 加载全局中间件
+	gs.Middleware.init()
+
+	// 加载HTML模板
+	// gin.Engine 在创建时，模板尚未初始完毕，需要在这里再进行设置
+	// 因 Start 只会调用一次，在 Stop 后应用会直接退出，忽略线程不安全的警告
+	if gs.templ != nil {
+		gs.engine.SetHTMLTemplate(gs.templ)
+	}
+
+	// 加载安全初始化函数
+	for _, fn := range gs.initFuncList {
+		fn()
+	}
+
+	gs.engine.Use(logger.New(zap.L()))
+	if !conf.IsCorsDisable {
+		gs.engine.Use(cors())
+	} // 是否开启跨域支持
+
 	// 性能监测
 	if conf.Pprof {
 		pprofGroup := gs.engine.Group("/debug/pprof")
@@ -118,40 +149,8 @@ func (gs *Server) Init(conf *Config) {
 		})
 	}
 
-	if !conf.IsCorsDisable {
-		gs.engine.Use(cors())
-	} // 是否开启跨域支持
-
-	// 设置 http server
-	gs.server = &http.Server{
-		Addr:    conf.Addr(),
-		Handler: gs.engine,
-	}
-
-	gs.Config = conf
-
-	// 加载核心中间件
-	gs.engine.Use(recovery())
-
-	// 加载全局中间件
-	gs.Middleware.init()
-
 	// 初始化路由
 	gs.Router.init()
-
-	// 加载HTML模板
-	// gin.Engine 在创建时，模板尚未初始完毕，需要在这里再进行设置
-	// 因 Start 只会调用一次，在 Stop 后应用会直接退出，忽略线程不安全的警告
-	if gs.templ != nil {
-		gs.engine.SetHTMLTemplate(gs.templ)
-	}
-
-	// 加载安全初始化函数
-	for _, fn := range gs.initFuncList {
-		fn()
-	}
-
-	gs.engine.Use(logger.New(zap.L()))
 }
 
 // AddInit 添加安全初始化函数
