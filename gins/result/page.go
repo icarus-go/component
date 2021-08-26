@@ -1,4 +1,4 @@
-package model
+package result
 
 type PageResult struct {
 	Page     int         `json:"page"`

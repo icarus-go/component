@@ -31,7 +31,7 @@ func (ctx *Context) reset(ginCtx *gin.Context) {
 	ctx.API.result.Code = apiconstant.RESPONSE_UNKNOW
 	ctx.API.result.Msg = ""
 	ctx.API.result.Data = nil
-	ctx.API.result.dataKV = nil
+	ctx.API.result.DataKV = nil
 	ctx.API.rawResult = nil
 
 	ctx.Web.ctx = ctx

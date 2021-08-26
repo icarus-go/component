@@ -1,4 +1,4 @@
-package model
+package result
 
 import "pmo-test4.yz-intelligence.com/kit/component/apiconstant"
 

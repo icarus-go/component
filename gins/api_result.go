@@ -3,12 +3,12 @@ package gins
 import (
 	"net/http"
 	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
-	"pmo-test4.yz-intelligence.com/kit/component/gins/model"
+	"pmo-test4.yz-intelligence.com/kit/component/gins/result"
 )
 
 type api struct {
 	ctx       *Context
-	result    model.ApiResult
+	result    result.ApiResult
 	rawResult []byte
 }
 
@@ -45,7 +45,7 @@ func (a *api) SetData(data interface{}) {
 //SetPageResult 设置分页返回
 func (a *api) SetPageResult(list interface{}, total int64, page, pageSize int) {
 	a.result.Code = apiconstant.RESPONSE_OK
-	a.result.Data = model.NewPageResult(list, total, page, pageSize)
+	a.result.Data = result.NewPageResult(list, total, page, pageSize)
 }
 
 // SetDataKV 设置KV，会覆盖掉 SetData
