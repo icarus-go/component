@@ -3,9 +3,11 @@ package gins
 import (
 	"context"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"html/template"
 	"net/http"
 	"net/http/pprof"
+	"pmo-test4.yz-intelligence.com/kit/component/gins/logger"
 	"time"
 )
 
@@ -32,8 +34,10 @@ type Server struct {
 
 // New 创建新的GinServer实例
 func New() (gs *Server, err error) {
+	engine := gin.New()
+
 	gs = &Server{
-		engine: gin.New(),
+		engine: engine,
 	}
 
 	// 封闭自定义 Middleware ，全局
@@ -146,6 +150,8 @@ func (gs *Server) Init(conf *Config) {
 	for _, fn := range gs.initFuncList {
 		fn()
 	}
+
+	gs.engine.Use(logger.New(zap.L()))
 }
 
 // AddInit 添加安全初始化函数
