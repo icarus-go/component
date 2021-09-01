@@ -113,3 +113,12 @@ func cors() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+//Plugin 方便注册第三方接口
+type Plugin interface {
+	// Register 注册路由
+	Register(group *Router)
+
+	// Path 用户返回注册路由
+	Path() string
+}

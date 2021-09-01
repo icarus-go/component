@@ -96,6 +96,13 @@ func POST(relativePath string, handlers ...HandlerFunc) *Router {
 	return Instance.Router.POST(relativePath, handlers...)
 }
 
+//AddPlugins 添加插件
+func AddPlugins(group *Router, plugins ...Plugin) {
+	for _, plugin := range plugins {
+		plugin.Register(group.Group(plugin.Path()))
+	}
+}
+
 // GET 请求
 func GET(relativePath string, handlers ...HandlerFunc) *Router {
 	return Instance.Router.GET(relativePath, handlers...)
