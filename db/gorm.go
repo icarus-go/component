@@ -17,15 +17,15 @@ type Gorm struct {
 
 	config.Params
 
-	AutoMigrateTable AutoMigrateTable
+	AutoMigrateTables []AutoMigrateTable
 }
 
-func New(config config.Params, autoMigrateTable AutoMigrateTable) *Gorm {
+func New(config config.Params, autoMigrateTable ...AutoMigrateTable) *Gorm {
 	instance := new(Gorm)
 
 	instance.Params = config
 
-	instance.AutoMigrateTable = autoMigrateTable
+	instance.AutoMigrateTables = autoMigrateTable
 
 	return instance
 }
@@ -51,10 +51,12 @@ func (m *Gorm) Initialize() error {
 	}
 
 	if m.AutoMigrate {
-		if m.AutoMigrateTable == nil {
+		if m.AutoMigrateTables == nil {
 			return fmt.Errorf("AutoMigrateTable对象为空,请实现Register()方法")
 		}
-		m.AutoMigrateTable.Register(m.DB)
+		for _, table := range m.AutoMigrateTables {
+			table.Register(m.DB)
+		}
 	}
 
 	if m.SQL, err = m.DB.DB(); err != nil {
