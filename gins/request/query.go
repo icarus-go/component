@@ -13,6 +13,10 @@ type Query struct {
 		IDs []uint64 `json:"ids"`            // ID串组
 	} `json:"integer"` // 整形ID
 
+	Paging
+}
+
+type Paging struct {
 	Page     int `json:"page" form:"page" example:"1"`          // 页码
 	PageSize int `json:"pageSize" form:"pageSize" example:"20"` // 页面最大条数
 }
@@ -20,7 +24,7 @@ type Query struct {
 //ResetPage 重置
 func (q *Query) ResetPage() *Query {
 	if q.Page < 1 {
-		q.Page = 1
+		q.Paging.Page = 1
 	}
 	if q.PageSize < 20 {
 		q.PageSize = 20

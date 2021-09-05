@@ -5,6 +5,7 @@ import (
 	"go.uber.org/zap"
 	"net/http"
 	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
+	"pmo-test4.yz-intelligence.com/kit/component/gins/request"
 	"pmo-test4.yz-intelligence.com/kit/component/gins/result"
 )
 
@@ -50,6 +51,12 @@ func (a *api) SetData(data interface{}) {
 func (a *api) SetPageResult(list interface{}, total int64, page, pageSize int) {
 	a.result.Code = apiconstant.RESPONSE_OK
 	a.result.Data = result.NewPageResult(list, total, page, pageSize)
+}
+
+//SetPaging 根据分页对象设置分页返回
+func (a *api) SetPaging(list interface{}, total int64, paging request.Paging) {
+	a.result.Code = apiconstant.RESPONSE_OK
+	a.result.Data = result.NewPageResult(list, total, paging.Page, paging.PageSize)
 }
 
 // SetDataKV 设置KV，会覆盖掉 SetData
