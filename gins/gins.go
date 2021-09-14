@@ -46,10 +46,10 @@ func Run(conf *Config) {
 	baseURL := fmt.Sprintf("%s:%d", conf.IP, conf.Port)
 
 	zap.L().Info(fmt.Sprintf(`
-	当前应用: %s
-	当前版本:%s
-	默认自动化文档地址:http://%s/swagger/index.html
-	默认前端文件运行地址:http://%s`, conf.Name, conf.Version, baseURL, baseURL))
+当前应用: %s
+当前版本:%s
+默认自动化文档地址:http://%s/swagger/index.html
+默认前端文件运行地址:http://%s`, conf.Name, conf.Version, baseURL, baseURL))
 
 	go func() {
 		Instance.Start()
