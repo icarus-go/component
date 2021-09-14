@@ -3,6 +3,8 @@ package gins
 
 import (
 	"errors"
+	"fmt"
+	"go.uber.org/zap"
 	"html/template"
 	"net/http"
 	"os"
@@ -40,6 +42,14 @@ func Run(conf *Config) {
 		//使用docker stop 命令去关闭Container时，该命令会发送SIGTERM 命令到Container主进程，让主进程处理该信号，关闭Container，如果在10s内，未关闭容器，Docker Damon会发送SIGKILL 信号将Container关闭。
 		signal.Notify(signalChan, syscall.SIGTERM, syscall.SIGINT)
 	}
+
+	baseURL := fmt.Sprintf("%s:%d", conf.IP, conf.Port)
+
+	zap.L().Info(fmt.Sprintf(`
+	当前应用: %s
+	当前版本:%s
+	默认自动化文档地址:%s/swagger/index.html
+	默认前端文件运行地址:%s`, conf.Name, conf.Version, baseURL, baseURL))
 
 	go func() {
 		Instance.Start()
