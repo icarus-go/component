@@ -14,6 +14,7 @@ type Params struct {
 	AllowGlobalUpdate        bool   `mapstructure:"allow-global" json:"allowGlobalUpdate" yaml:"allow-global-update"`
 	DisableAutomaticPing     bool   `mapstructure:"disable-automatic-ping" json:"disableAutomaticPing" yaml:"disable-automatic-ping"`
 	DisableNestedTransaction bool   `mapstructure:"disable-nested-transaction" json:"disableNestedTransaction" yaml:"disable-nested-transaction"`
+	DisableDBStartes         bool   `mapstructure:"disable-db-starts" json:"disableDbStartes" yaml:"disable-db-starts"`
 	NamingStrategy
 }
 
