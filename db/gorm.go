@@ -23,8 +23,6 @@ type Gorm struct {
 	gormConfig *gorm.Config
 
 	AutoMigrateTables []AutoMigrateTable
-
-	Starters []Initialize
 }
 
 //starter 启动器配置项
@@ -51,12 +49,6 @@ func New(config config.Params, setGormConfig starter) (*Gorm, error) {
 
 	if err := instance.initialize(); err != nil {
 		return nil, err
-	}
-
-	if !config.DisableDBStartes {
-		for _, start := range instance.Starters {
-			start.Run()
-		}
 	}
 
 	return instance, nil
@@ -154,13 +146,5 @@ func (m *Gorm) SetDisableNestedTransaction() *Gorm {
 //SetNowFunc 设置当前时间变更方法
 func (m *Gorm) SetNowFunc(nowFunc func() time.Time) *Gorm {
 	m.gormConfig.NowFunc = nowFunc
-	return m
-}
-
-//SetInitialize 设置初始化器，初始化表数据
-func (m *Gorm) SetInitialize(starter ...Initialize) *Gorm {
-	starters := make([]Initialize, 0, len(starter))
-	starters = append(starters, starter...)
-	m.Starters = starters
 	return m
 }

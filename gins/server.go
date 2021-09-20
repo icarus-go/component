@@ -2,11 +2,12 @@ package gins
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
 	"html/template"
 	"net/http"
 	"net/http/pprof"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 // InitFunc 安全初始化函数
