@@ -43,6 +43,8 @@ func New(config config.Params, setGormConfig starter) (*Gorm, error) {
 
 	instance.Params = config
 
+	instance.newGormConfig()
+
 	setGormConfig(instance)
 
 	if err := instance.initialize(); err != nil {
