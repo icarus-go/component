@@ -1,37 +1,38 @@
 package log
 
 import (
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"strings"
 	"time"
+
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	thisConfig "pmo-test4.yz-intelligence.com/kit/component/db/config"
 )
 
-func GenerateConfig(mode string, logZap bool) *gorm.Config {
-	mode = strings.ToLower(mode)
-
-	_config := &gorm.Config{DisableForeignKeyConstraintWhenMigrating: true}
+func Set(gormConfig *gorm.Config, params thisConfig.Params) *gorm.Config {
+	mode := strings.ToLower(params.LogMode)
 
 	Default := NewLogger(log.New(os.Stdout, "\r\n", log.LstdFlags), config{
 		SlowThreshold: 200 * time.Millisecond,
 		LogLevel:      logger.Warn,
 		Colorful:      true,
-		LogZap:        logZap,
+		LogZap:        params.LogZap,
 	})
 
 	switch mode {
 	case "silent":
-		_config.Logger = Default.LogMode(logger.Silent)
+		gormConfig.Logger = Default.LogMode(logger.Silent)
 	case "error":
-		_config.Logger = Default.LogMode(logger.Error)
+		gormConfig.Logger = Default.LogMode(logger.Error)
 	case "warn":
-		_config.Logger = Default.LogMode(logger.Warn)
+		gormConfig.Logger = Default.LogMode(logger.Warn)
 	case "info":
-		_config.Logger = Default.LogMode(logger.Info)
+		gormConfig.Logger = Default.LogMode(logger.Info)
 	default:
-		_config.Logger = Default.LogMode(logger.Info)
+		gormConfig.Logger = Default.LogMode(logger.Info)
 	}
-	return _config
+
+	return gormConfig
 }

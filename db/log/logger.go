@@ -3,10 +3,11 @@ package log
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"go.uber.org/zap"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/utils"
-	"time"
 )
 
 type (
@@ -16,6 +17,7 @@ type (
 		LogLevel      logger.LogLevel
 		LogZap        bool
 	}
+
 	_logger struct {
 		config
 		logger.Writer
@@ -63,28 +65,28 @@ func (c *_logger) LogMode(level logger.LogLevel) logger.Interface {
 }
 
 // Info print info
-func (c *_logger) Info(ctx context.Context, message string, data ...interface{}) {
+func (c *_logger) Info(_ context.Context, message string, data ...interface{}) {
 	if c.LogLevel >= logger.Info {
 		c.Printf(c.infoStr+message, append([]interface{}{utils.FileWithLineNum()}, data...)...)
 	}
 }
 
 // Warn print warn messages
-func (c *_logger) Warn(ctx context.Context, message string, data ...interface{}) {
+func (c *_logger) Warn(_ context.Context, message string, data ...interface{}) {
 	if c.LogLevel >= logger.Warn {
 		c.Printf(c.warnStr+message, append([]interface{}{utils.FileWithLineNum()}, data...)...)
 	}
 }
 
 // Error print error messages
-func (c *_logger) Error(ctx context.Context, message string, data ...interface{}) {
+func (c *_logger) Error(_ context.Context, message string, data ...interface{}) {
 	if c.LogLevel >= logger.Error {
 		c.Printf(c.errStr+message, append([]interface{}{utils.FileWithLineNum()}, data...)...)
 	}
 }
 
 // Trace print sql message
-func (c *_logger) Trace(ctx context.Context, begin time.Time, fc func() (string, int64), err error) {
+func (c *_logger) Trace(_ context.Context, begin time.Time, fc func() (string, int64), err error) {
 	if c.LogLevel > 0 {
 		elapsed := time.Since(begin)
 		switch {
