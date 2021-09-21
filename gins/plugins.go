@@ -6,6 +6,8 @@ import (
 	"runtime"
 	"sync"
 
+	"go.uber.org/zap"
+
 	"github.com/gin-gonic/gin"
 	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
 )
@@ -30,6 +32,7 @@ func recovery() gin.HandlerFunc {
 				//异常捕获处理
 				if e := recover(); e != nil {
 					stack := fmt.Sprintf("System Panic: %v", e)
+
 					for i := 1; ; i++ {
 						_, file, line, ok := runtime.Caller(i)
 						if !ok {
@@ -38,6 +41,8 @@ func recovery() gin.HandlerFunc {
 							stack += "\n"
 						}
 						stack += fmt.Sprintf("%v:%v", file, line)
+
+						zap.L().Error(stack)
 					}
 
 					// 500 处理
