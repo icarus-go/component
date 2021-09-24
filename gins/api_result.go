@@ -2,8 +2,9 @@ package gins
 
 import (
 	"fmt"
-	"go.uber.org/zap"
 	"net/http"
+
+	"go.uber.org/zap"
 	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
 	"pmo-test4.yz-intelligence.com/kit/component/gins/request"
 	"pmo-test4.yz-intelligence.com/kit/component/gins/result"
@@ -69,7 +70,7 @@ func (a *api) SetDataKV(key string, value interface{}) {
 	a.result.DataKV[key] = value
 }
 
-// SetRawResult 设置原始内容输出，Content-Type为application/json，优先响应
+// SetRawResult 设置原始内容输出，content-Type为application/json，优先响应
 func (a *api) SetRawResult(rawResult []byte) {
 	a.rawResult = rawResult
 }
