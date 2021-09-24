@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"runtime"
 	"sync"
+	"time"
 
 	"go.uber.org/zap"
 
@@ -115,6 +116,51 @@ func cors() gin.HandlerFunc {
 			c.AbortWithStatus(http.StatusNoContent)
 		}
 		// 处理请求
+		c.Next()
+	}
+}
+
+var (
+	limitQueue map[string][]int64
+	count      int = 10
+)
+
+func Limit() HandlerFunc {
+	return func(c *Context) {
+
+		key := "limit:" + c.ClientIP()
+
+		currTime := time.Now().Unix()
+
+		if limitQueue == nil {
+			limitQueue = make(map[string][]int64)
+		}
+
+		if _, ok := limitQueue[key]; !ok {
+			limitQueue[key] = make([]int64, 0)
+		}
+
+		//队列未满
+		if len(limitQueue[key]) < count {
+			limitQueue[key] = append(limitQueue[key], currTime)
+			c.Next()
+			return
+		}
+
+		//队列满了,取出最早访问的时间
+		earlyTime := limitQueue[key][0]
+
+		//说明最早期的时间还在时间窗口内,还没过期,所以不允许通过
+		if currTime-earlyTime <= 10 {
+			c.API.SetMsg("限流", apiconstant.RESPONSE_REJECT)
+			c.API.Render()
+			c.Abort()
+			return
+		}
+
+		//说明最早期的访问应该过期了,去掉最早期的
+		limitQueue[key] = limitQueue[key][1:]
+		limitQueue[key] = append(limitQueue[key], currTime)
 		c.Next()
 	}
 }

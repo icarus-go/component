@@ -7,6 +7,8 @@ import (
 	"net/http/pprof"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -179,7 +181,9 @@ func (gs *Server) Stop() {
 
 	err := gs.server.Shutdown(stopCtx)
 	if err != nil {
+		zap.L().Error("服务停止出错", zap.String("name", gs.Config.Name), zap.String("version", gs.Config.Version), zap.Error(err))
 	} else {
+		zap.L().Error("服务已停止", zap.String("name", gs.Config.Name), zap.String("version", gs.Config.Version))
 	}
 
 	gs.rootCancel()
