@@ -2,9 +2,11 @@ package gins
 
 import (
 	"fmt"
-	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
 	"strconv"
 	"time"
+
+	"go.uber.org/zap"
+	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
 )
 
 // APIError API错误对象
@@ -64,6 +66,8 @@ func NewAPIErrorWithData(msg string, data interface{}, code ...apiconstant.Respo
 // NewAPIErrorWithLog 创建API错误对象，转化为友好提示并记录日志，默认code：RESPONSE_CRASH
 func NewAPIErrorWithLog(title, rawMsg string, code ...apiconstant.ResponseType) *APIError {
 	errCode := strconv.FormatInt(time.Now().Unix(), 10)
+
+	zap.L().Error("错误信息: ", zap.String("title", title), zap.String("code", errCode), zap.String("content", rawMsg))
 
 	data := make(map[string]string, 1)
 	data["errCode"] = errCode
