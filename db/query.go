@@ -5,6 +5,7 @@ import (
 	"pmo-test4.yz-intelligence.com/kit/component/gins/common"
 )
 
+//Paginate 分页方法
 func Paginate(paging *common.Paging) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		switch {
@@ -15,5 +16,16 @@ func Paginate(paging *common.Paging) func(db *gorm.DB) *gorm.DB {
 		}
 		offset := paging.PageSize * (paging.Page - 1)
 		return db.Offset(offset).Limit(paging.PageSize)
+	}
+}
+
+//Order 排序方法
+//  orders 排序对象
+func Order(orders ...*common.Order) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		for _, order := range orders {
+			db.Order(order.Join() + " " + order.Sort())
+		}
+		return db
 	}
 }

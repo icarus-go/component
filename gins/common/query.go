@@ -1,6 +1,9 @@
 package common
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
 
 type (
 	Query struct {
@@ -21,6 +24,11 @@ type (
 	Paging struct {
 		Page     int `json:"page" form:"page" example:"1"`          // 页码
 		PageSize int `json:"pageSize" form:"pageSize" example:"20"` // 页面最大条数
+	}
+
+	Order struct {
+		Fields []string `json:"fields"`
+		Type   string   `json:"type"`
 	}
 )
 
@@ -61,4 +69,19 @@ func (q *String) HasIDs() error {
 		return errors.New("ids长度必须大于0")
 	}
 	return nil
+}
+
+func (o *Order) Join() string {
+	return strings.Join(o.Fields, ",")
+}
+
+func (o *Order) Sort() string {
+	if o.Type == "" {
+		return ""
+	} // 如果为空，默认使用降序
+	if o.Type == "desc" || o.Type == "asc" {
+		return o.Type
+	} // 符合数据库值，返回
+	return "" // 不符合，直接返回空，按照升序处理
+
 }
