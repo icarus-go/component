@@ -2,10 +2,10 @@ package db
 
 import (
 	"gorm.io/gorm"
-	"pmo-test4.yz-intelligence.com/kit/component/gins/request"
+	"pmo-test4.yz-intelligence.com/kit/component/gins/common"
 )
 
-func Paginate(paging *request.Paging) func(db *gorm.DB) *gorm.DB {
+func Paginate(paging *common.Paging) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		switch {
 		case paging.PageSize > 10000:

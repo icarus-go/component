@@ -6,7 +6,7 @@ import (
 
 	"go.uber.org/zap"
 	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
-	"pmo-test4.yz-intelligence.com/kit/component/gins/request"
+	"pmo-test4.yz-intelligence.com/kit/component/gins/common"
 	"pmo-test4.yz-intelligence.com/kit/component/gins/result"
 )
 
@@ -55,7 +55,7 @@ func (a *api) SetPageResult(list interface{}, total int64, page, pageSize int) {
 }
 
 //SetPaging 根据分页对象设置分页返回
-func (a *api) SetPaging(list interface{}, total int64, paging request.Paging) {
+func (a *api) SetPaging(list interface{}, total int64, paging common.Paging) {
 	a.result.Code = apiconstant.RESPONSE_OK
 	a.result.Data = result.NewPageResult(list, total, paging.Page, paging.PageSize)
 }
