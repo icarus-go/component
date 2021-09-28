@@ -36,7 +36,7 @@ func NewJSONFormStruct(data interface{}) (*JSON, error) {
 
 	instance := new(JSON)
 
-	instance.data = make(map[string]interface{}, 0)
+	instance.data = make(map[string]interface{})
 
 	if err = json.Unmarshal(marshalJSON, &instance.data); err != nil {
 		return nil, err

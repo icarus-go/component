@@ -8,6 +8,8 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"strings"
+
+	"go.uber.org/zap"
 )
 
 type Request struct {
@@ -22,62 +24,71 @@ func NewRequest() *Request {
 	}
 }
 
-func (c *Request) AddParam(key, value string) *Request {
-	c.values.Add(key, value)
-	return c
+func (r *Request) AddParam(key, value string) *Request {
+	r.values.Add(key, value)
+	return r
 }
 
-func (c *Request) AddJSON(key string, value interface{}) *Request {
-	c.json.Add(key, value)
-	return c
+func (r *Request) AddJSON(key string, value interface{}) *Request {
+	if r.json == nil {
+		r.json = NewJSON()
+	}
+
+	r.json.Add(key, value)
+	return r
 }
 
-func (c *Request) SetValues(parameter url.Values) *Request {
-	c.values = parameter
-	return c
+func (r *Request) SetValues(parameter url.Values) *Request {
+	r.values = parameter
+	return r
 }
 
-func (c *Request) SetJSON(jsonObject *JSON) *Request {
-	c.json = jsonObject
-	return c
+func (r *Request) SetJSON(jsonObject *JSON) *Request {
+	if r.json != nil {
+		zap.L().Warn("将替换原有JSON,请注意！", zap.String("body", string(r.json.Body())))
+	}
+
+	r.json = jsonObject
+
+	return r
 }
 
-func (c *Request) AddHeader(key, value string) *Request {
-	c.header.Add(key, value)
-	return c
+func (r *Request) AddHeader(key, value string) *Request {
+	r.header.Add(key, value)
+	return r
 }
 
-func (c *Request) Get(url string) (*Result, error) {
+func (r *Request) Get(url string) (*Result, error) {
 	if strings.Contains(url, "?") {
 		url += "&"
 	} else {
 		url += "?"
 	}
 
-	url += c.values.Encode()
+	url += r.values.Encode()
 
-	c.AddHeader("content-Type", "application/x-www-form-urlencoded")
+	r.AddHeader("content-Type", "application/x-www-form-urlencoded")
 
-	return c.do("GET", url, nil)
+	return r.do("GET", url, nil)
 }
 
-func (c *Request) POST(url string) (*Result, error) {
+func (r *Request) POST(url string) (*Result, error) {
 	var data []byte
 
-	if c.values != nil {
-		data = []byte(c.values.Encode())
-		c.AddHeader("content-Type", "application/x-www-form-urlencoded")
+	if r.values != nil {
+		data = []byte(r.values.Encode())
+		r.AddHeader("content-Type", "application/x-www-form-urlencoded")
 	}
 
-	if c.json != nil {
-		data = c.json.Body()
-		c.AddHeader("content-Type", "application/json;charset=utf-8")
+	if r.json != nil {
+		data = r.json.Body()
+		r.AddHeader("content-Type", "application/json;charset=utf-8")
 	}
 
-	return c.do("POST", url, bytes.NewReader(data))
+	return r.do("POST", url, bytes.NewReader(data))
 }
 
-func (c *Request) do(method, url string, data *bytes.Reader) (*Result, error) {
+func (r *Request) do(method, url string, data *bytes.Reader) (*Result, error) {
 
 	var req *http.Request
 	var err error
@@ -90,7 +101,7 @@ func (c *Request) do(method, url string, data *bytes.Reader) (*Result, error) {
 
 	// Header map[string][]string
 
-	req.Header = c.header
+	req.Header = r.header
 
 	w := httptest.NewRecorder()
 
