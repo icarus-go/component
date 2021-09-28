@@ -30,6 +30,14 @@ type (
 		Fields []string `json:"fields" form:"fields" example:"id,createTime"` // 排序字段
 		Type   string   `json:"type" form:"type" example:"desc/asc"`          // 排序类型
 	}
+
+	GetByID struct {
+		ID uint64 `json:"id" form:"id" swaggertype:"string" example:"uint64 主键ID"` // 主键ID
+	}
+
+	GetByIDs struct {
+		IDs []uint64 `json:"ids" form:"ids" swaggertype:"string" example:"[]uint64 主键IDs"` // 主键IDs
+	}
 )
 
 //ResetPage 重置
