@@ -32,11 +32,11 @@ type (
 	}
 
 	GetByID struct {
-		ID uint64 `json:"id" form:"id" swggertype:"string" example:"uint64 主键ID"` // 主键ID
+		ID uint64 `json:"id" form:"id" swaggertype:"string" example:"uint64 主键ID"` // 主键ID
 	}
 
 	GetByIDs struct {
-		IDs []uint64 `json:"ids" form:"ids" swggertype:"string" example:"[]uint64 主键IDs"` // 主键IDs
+		IDs []uint64 `json:"ids" form:"ids" swaggertype:"string" example:"[]uint64 主键IDs"` // 主键IDs
 	}
 )
 
