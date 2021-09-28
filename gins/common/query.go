@@ -7,18 +7,18 @@ import (
 
 type (
 	Query struct {
-		String  String  `json:"string"`  // 字符串ID
-		Integer Integer `json:"integer"` // 整形ID
+		String  String  `json:"string" form:"string"`   // 字符串ID
+		Integer Integer `json:"integer" form:"integer"` // 整形ID
 		Paging
 	}
 	String struct {
-		ID  string   `json:"id" example:"ID" v:"required|length:1,1000#请输入id|id长度为:min到:max位"` // ID,当前业务主键
-		IDs []string `json:"ids" example:"ID组"`                                                // ID串组
+		ID  string   `json:"id" form:"id" example:"ID" v:"required|length:1,1000#请输入id|id长度为:min到:max位"` // ID,当前业务主键
+		IDs []string `json:"ids" form:"ids" example:"ID组"`                                               // ID串组
 	}
 
 	Integer struct {
-		ID  uint64   `json:"id" example:"1"` // ID
-		IDs []uint64 `json:"ids"`            // ID串组
+		ID  uint64   `json:"id" example:"1" form:"id"` // ID
+		IDs []uint64 `json:"ids" form:"ids"`           // ID串组
 	}
 
 	Paging struct {
@@ -27,8 +27,8 @@ type (
 	}
 
 	Order struct {
-		Fields []string `json:"fields"`
-		Type   string   `json:"type"`
+		Fields []string `json:"fields" form:"fields" example:"id,createTime"` // 排序字段
+		Type   string   `json:"type" form:"type" example:"desc/asc"`          // 排序类型
 	}
 )
 
