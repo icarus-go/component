@@ -25,6 +25,10 @@ func NewRequest() *Request {
 }
 
 func (r *Request) AddParam(key, value string) *Request {
+	if r.values == nil {
+		r.values = make(url.Values)
+	}
+
 	r.values.Add(key, value)
 	return r
 }
@@ -39,6 +43,9 @@ func (r *Request) AddJSON(key string, value interface{}) *Request {
 }
 
 func (r *Request) SetValues(parameter url.Values) *Request {
+	if r.values != nil {
+		zap.L().Warn("将替换原有參數,请注意！", zap.String("body", string(r.json.Body())))
+	}
 	r.values = parameter
 	return r
 }
