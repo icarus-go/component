@@ -42,6 +42,13 @@ func (a *api) SetMsg(msg string, code ...apiconstant.ResponseType) {
 	a.result.Code = apiconstant.RESPONSE_ERROR
 }
 
+// SetSuccessMessage 添加返回成功的信息
+// Author SliverHorn
+func (a *api) SetSuccessMessage(message string) {
+	a.result.Msg = message
+	a.result.Code = apiconstant.RESPONSE_OK
+}
+
 // SetData 设置输出的model
 func (a *api) SetData(data interface{}) {
 	a.result.Code = apiconstant.RESPONSE_OK
