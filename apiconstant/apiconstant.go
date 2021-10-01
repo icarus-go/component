@@ -21,6 +21,9 @@ const (
 	// 用户登录令牌无效，含过期
 	RESPONSE_TOKEN_INVALID ResponseType = 90401
 
+	// Authentication 权限不足
+	Authentication ResponseType = 90402
+
 	// Action无效
 	// RESPONSE_ACTION_INVALID ResponseType = 90404
 
