@@ -29,3 +29,14 @@ func Order(orders ...*common.Order) func(db *gorm.DB) *gorm.DB {
 		return db
 	}
 }
+
+func Cos(cos ...*common.Cos) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+
+		for _, cos := range cos {
+			db.Select(cos.Join(), cos.Args)
+		}
+
+		return db
+	}
+}
