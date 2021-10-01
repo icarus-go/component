@@ -125,3 +125,10 @@ func (r *Request) do(method, url string, data *bytes.Reader) (*Result, error) {
 
 	return NewResult(w.Body.Bytes()), nil
 }
+
+func (r *Request) Reset() *Request {
+	r.values = nil
+	r.json = nil
+	r.header = make(http.Header)
+	return r
+}

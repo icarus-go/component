@@ -3,8 +3,8 @@ package common
 import "strings"
 
 type Cos struct {
-	Fields []string      `json:"fields"`
-	Args   []interface{} `json:"args"`
+	Fields []string      `json:"fields" form:"fields"`
+	Args   []interface{} `json:"args" form:"args"`
 }
 
 //Join 拼接
