@@ -21,6 +21,12 @@ func NewDate(value string) *Date {
 	return &Date{Time: _time}
 }
 
+// NewDateByTime 通过 time.Time 构建 Date
+// Author SliverHorn
+func NewDateByTime(t time.Time) *Date {
+	return &Date{Time: t}
+}
+
 // NewDateByLayout 构建 Date by layout
 // Author SliverHorn
 func NewDateByLayout(layout, value string) *Date {

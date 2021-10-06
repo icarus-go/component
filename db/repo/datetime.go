@@ -14,11 +14,17 @@ type Datetime struct {
 	time.Time
 }
 
-// NewDatetime 构建 Datetime 方法
+// NewDatetime 构建 Datetime
 // Author SliverHorn
 func NewDatetime(value string) *Datetime {
 	_time, _ := time.Parse(DateTimeFormat, value)
 	return &Datetime{Time: _time}
+}
+
+// NewDatetimeByTime 通过 time.Time 构建 Datetime
+// Author SliverHorn
+func NewDatetimeByTime(t time.Time) *Datetime {
+	return &Datetime{Time: t}
 }
 
 // NewDatetimeByLayout 构建 Datetime by layout
