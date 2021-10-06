@@ -82,6 +82,10 @@ func AddInit(initFuncs ...InitFunc) {
 	Instance.AddInit(initFuncs...)
 }
 
+func AddAfter(afterFuncs ...InitFunc) {
+	Instance.AddAfter(afterFuncs...)
+}
+
 // AddTemplate 添加模板
 func AddTemplate(name string, content string) {
 	if Instance.templ == nil {
