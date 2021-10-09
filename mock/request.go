@@ -7,15 +7,18 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"pmo-test4.yz-intelligence.com/kit/component/mock/constant"
+	"strconv"
 	"strings"
 
 	"go.uber.org/zap"
 )
 
 type Request struct {
-	values url.Values
-	json   *JSON
-	header http.Header
+	values      url.Values
+	json        *JSON
+	header      http.Header
+	contentType constant.ContentType
 }
 
 func NewRequest() *Request {
@@ -24,12 +27,13 @@ func NewRequest() *Request {
 	}
 }
 
-func (r *Request) AddParam(key, value string) *Request {
+func (r *Request) AddQuery(key, value string) *Request {
 	if r.values == nil {
 		r.values = make(url.Values)
 	}
 
 	r.values.Add(key, value)
+	r.contentType = constant.URLEncode
 	return r
 }
 
@@ -39,14 +43,23 @@ func (r *Request) AddJSON(key string, value interface{}) *Request {
 	}
 
 	r.json.Add(key, value)
+	r.contentType = constant.JSON
+
 	return r
 }
 
-func (r *Request) SetValues(parameter url.Values) *Request {
+func (r *Request) AddFormData(key string, value []string) *Request {
+	r.values[key] = value
+	r.contentType = constant.FormData
+	return r
+}
+
+func (r *Request) SetValues(parameter url.Values, contentType constant.ContentType) *Request {
 	if r.values != nil {
 		zap.L().Warn("将替换原有參數,请注意！", zap.String("body", string(r.json.Body())))
 	}
 	r.values = parameter
+	r.contentType = contentType
 	return r
 }
 
@@ -56,7 +69,7 @@ func (r *Request) SetJSON(jsonObject *JSON) *Request {
 	}
 
 	r.json = jsonObject
-
+	r.contentType = constant.JSON
 	return r
 }
 
@@ -74,34 +87,44 @@ func (r *Request) Get(url string) (*Result, error) {
 
 	url += r.values.Encode()
 
-	r.AddHeader("content-Type", "application/x-www-form-urlencoded")
+	r.AddHeader("content-Type", r.contentType.Value())
 
-	return r.do("GET", url, nil)
+	return r.do("GET", url)
 }
 
 func (r *Request) POST(url string) (*Result, error) {
-	var data []byte
+	return r.do("POST", url)
+}
 
+func (r *Request) PUT(url string) (*Result, error) {
+	return r.do("PUT", url)
+}
+
+func (r *Request) DELETE(url string) (*Result, error) {
+	return r.do("DELETE", url)
+}
+
+func (r *Request) do(method, url string) (*Result, error) {
+	var data []byte
 	if r.values != nil {
 		data = []byte(r.values.Encode())
-		r.AddHeader("content-Type", "application/x-www-form-urlencoded")
 	}
 
 	if r.json != nil {
 		data = r.json.Body()
-		r.AddHeader("content-Type", "application/json;charset=utf-8")
 	}
 
-	return r.do("POST", url, bytes.NewReader(data))
-}
+	if r.contentType == constant.FormData {
+		r.AddHeader("Content-Length", strconv.Itoa(len(data)))
+	}
 
-func (r *Request) do(method, url string, data *bytes.Reader) (*Result, error) {
+	r.AddHeader("content-Type", r.contentType.Value())
 
 	var req *http.Request
 	var err error
 
 	if data != nil {
-		req, err = http.NewRequest(method, url, data)
+		req, err = http.NewRequest(method, url, bytes.NewReader(data))
 	} else {
 		req, err = http.NewRequest(method, url, nil)
 	}

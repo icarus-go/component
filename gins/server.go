@@ -17,15 +17,15 @@ type InitFunc func()
 
 // Server 服务器对象
 type Server struct {
-	engine       *gin.Engine        // gin Engine
-	Middleware   *Middleware        // 全局中间件
-	Router       *Router            // gin Router 封装
-	templ        *template.Template // 模板资源
-	initFuncList []InitFunc         // 安全初始化函数列表
-
-	server     *http.Server // http服务器
-	rootCtx    context.Context
-	rootCancel context.CancelFunc
+	engine        *gin.Engine        // gin Engine
+	Middleware    *Middleware        // 全局中间件
+	Router        *Router            // gin Router 封装
+	templ         *template.Template // 模板资源
+	initFuncList  []InitFunc         // 安全初始化函数列表
+	afterFuncList []InitFunc         // 安全执行后初始化函数列表
+	server        *http.Server       // http服务器
+	rootCtx       context.Context
+	rootCancel    context.CancelFunc
 
 	on404 HandlerFunc
 	on500 HandlerFunc
@@ -80,6 +80,11 @@ func (gs *Server) Init(conf *Config) {
 		Handler: gs.engine,
 	}
 
+	// 加载安全初始化函数
+	for _, fn := range gs.initFuncList {
+		fn()
+	}
+
 	gs.Config = conf
 
 	// 加载核心中间件
@@ -93,11 +98,6 @@ func (gs *Server) Init(conf *Config) {
 	// 因 Start 只会调用一次，在 Stop 后应用会直接退出，忽略线程不安全的警告
 	if gs.templ != nil {
 		gs.engine.SetHTMLTemplate(gs.templ)
-	}
-
-	// 加载安全初始化函数
-	for _, fn := range gs.initFuncList {
-		fn()
 	}
 
 	gs.engine.Use(gin.Logger())
@@ -153,12 +153,23 @@ func (gs *Server) Init(conf *Config) {
 
 	// 初始化路由
 	gs.Router.init()
+
+	// 加载安全初始化函数
+	for _, fn := range gs.afterFuncList {
+		fn()
+	}
 }
 
 // AddInit 添加安全初始化函数
 func (gs *Server) AddInit(initFunc ...InitFunc) {
 	if len(initFunc) > 0 {
 		gs.initFuncList = append(gs.initFuncList, initFunc...)
+	}
+}
+
+func (gs *Server) AddAfter(afterFunc ...InitFunc) {
+	if len(afterFunc) > 0 {
+		gs.afterFuncList = append(gs.afterFuncList, afterFunc...)
 	}
 }
 
