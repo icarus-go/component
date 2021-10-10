@@ -19,7 +19,7 @@ func (s *S) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
-func (s *S) AfterCreate(tx *gorm.DB) error {
+func (s *S) BeforeUpdate(tx *gorm.DB) error {
 	now := time.Now().Local()
 	s.UpdatedAt.Time = now
 	return nil
@@ -39,7 +39,7 @@ func (m *M) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
-func (m *M) AfterCreate(tx *gorm.DB) error {
+func (m *M) BeforeUpdate(tx *gorm.DB) error {
 	now := time.Now().Local()
 	m.UpdatedAt.Time = now
 	return nil
