@@ -28,6 +28,18 @@ func NewJSONFormMap(data map[string]interface{}) *JSON {
 	return instance
 }
 
+//NewJSONFormString
+func NewJSONFormString(v string) (*JSON, error) {
+	m := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(v), &m); err != nil {
+		return nil, err
+	}
+
+	instance := new(JSON)
+	instance.data = m
+	return instance, nil
+}
+
 func NewJSONFormStruct(data interface{}) (*JSON, error) {
 	marshalJSON, err := json.Marshal(data)
 	if err != nil {
