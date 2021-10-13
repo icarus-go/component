@@ -32,11 +32,24 @@ func Order(orders ...*common.Order) func(db *gorm.DB) *gorm.DB {
 
 func Cos(cos ...*common.Cos) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-
 		for _, cos := range cos {
 			db.Select(cos.Join(), cos.Args)
 		}
+		return db
+	}
+}
 
+func Preload(preload ...*common.Preload) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		for _, item := range preload {
+			if len(item.Args) > 0 {
+				db.Preload(item.Field, item.Args)
+			}
+
+			if len(item.Args) < 1 {
+				db.Preload(item.Field)
+			}
+		}
 		return db
 	}
 }

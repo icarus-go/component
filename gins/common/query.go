@@ -6,11 +6,6 @@ import (
 )
 
 type (
-	Query struct {
-		String  String  `json:"string" form:"string"`   // 字符串ID
-		Integer Integer `json:"integer" form:"integer"` // 整形ID
-		Paging
-	}
 	String struct {
 		ID  string   `json:"id" form:"id" example:"ID" v:"required|length:1,1000#请输入id|id长度为:min到:max位"` // ID,当前业务主键
 		IDs []string `json:"ids" form:"ids" example:"ID组"`                                               // ID串组
@@ -41,9 +36,9 @@ type (
 )
 
 //ResetPage 重置
-func (q *Query) ResetPage() *Query {
+func (q *Paging) ResetPage() *Paging {
 	if q.Page < 1 {
-		q.Paging.Page = 1
+		q.Page = 1
 	}
 	if q.PageSize < 20 {
 		q.PageSize = 20
