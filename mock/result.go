@@ -22,6 +22,9 @@ func (r *Result) Content() string {
 	return string(r.body)
 }
 
-func (r *Result) MarshalJSON(target interface{}) error {
-	return json.Unmarshal(r.body, target)
+//Unmarshal 序列化
+func (r *Result) Unmarshal(target interface{}) error {
+	return json.Unmarshal(r.body, &Result{
+		Data: target,
+	})
 }
