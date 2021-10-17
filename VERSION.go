@@ -1,3 +1,3 @@
 package component
 
-const VERSION = "v0.0.47"
+const VERSION = "v0.0.48"
