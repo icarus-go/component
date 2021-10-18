@@ -22,9 +22,9 @@ func (b Boolean) Int() int {
 	return isOK
 }
 
-// Nil 是否为空
+// NotNil 是否为空
 //  Author:  Kevin·CC
-func (b *Boolean) Nil() bool {
+func (b *Boolean) NotNil() bool {
 	return b.Result != nil
 }
 
