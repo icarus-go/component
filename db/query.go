@@ -46,6 +46,7 @@ func Preload(preload ...*common.Preload) func(db *gorm.DB) *gorm.DB {
 				db.Preload(item.Field)
 				continue
 			}
+
 			db.Preload(item.Field, item.Args)
 		}
 		return db
