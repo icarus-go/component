@@ -42,13 +42,11 @@ func Cos(cos ...*common.Cos) func(db *gorm.DB) *gorm.DB {
 func Preload(preload ...*common.Preload) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		for _, item := range preload {
-			if len(item.Args) > 0 {
-				db.Preload(item.Field, item.Args)
-			}
-
-			if len(item.Args) < 1 {
+			if item.Args == nil {
 				db.Preload(item.Field)
+				continue
 			}
+			db.Preload(item.Field, item.Args)
 		}
 		return db
 	}
