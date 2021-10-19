@@ -3,15 +3,15 @@ package common
 import "gorm.io/gorm"
 
 type Preload struct {
-	Field string        `json:"field"`
-	Args  []interface{} `json:"args"`
+	Field string                     `json:"field"`
+	Args  func(tx *gorm.DB) *gorm.DB `json:"args"`
 }
 
 //NewPreloadByCondition 创建预加载对象并且追加where条件
 func NewPreloadByCondition(field string, condition func(tx *gorm.DB) *gorm.DB) *Preload {
 	instance := &Preload{
 		Field: field,
-		Args:  []interface{}{condition},
+		Args:  condition,
 	}
 
 	return instance
