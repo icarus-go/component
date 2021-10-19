@@ -40,7 +40,7 @@ func (q *Paging) ResetPage() *Paging {
 	if q.Page < 1 {
 		q.Page = 1
 	}
-	if q.PageSize < 20 {
+	if q.PageSize < 1 {
 		q.PageSize = 20
 	}
 	return q
