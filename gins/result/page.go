@@ -8,7 +8,7 @@ type PageResult struct {
 }
 
 func NewPageResult(list interface{}, total int64, page int, pageSize int) *PageResult {
-	if list == nil {
+	if list == nil || total < 1 {
 		return &PageResult{Page: page, PageSize: pageSize, Total: total, List: []struct{}{}}
 	}
 	return &PageResult{Page: page, PageSize: pageSize, Total: total, List: list}
