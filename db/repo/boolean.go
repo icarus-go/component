@@ -36,7 +36,7 @@ func (b *Boolean) Value() (driver.Value, error) {
 // MarshalJSON 序列化
 // Author Kevin·CC
 func (b *Boolean) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%s"`, strconv.FormatBool(bool(*b)))), nil
+	return []byte(fmt.Sprintf(`%v`, *b)), nil
 }
 
 // UnmarshalJSON 反序列化
