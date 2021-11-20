@@ -1,15 +1,14 @@
 package mock
 
 import (
-	"encoding/json"
-
-	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
+	"pmo-test4.yz-intelligence.com/kit/data/json"
+	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
 )
 
 type Result struct {
-	Code apiconstant.ResponseType `json:"code"`
-	Msg  string                   `json:"msg"`
-	Data interface{}              `json:"data"`
+	Code constant.ResponseType `json:"code"`
+	Msg  string                `json:"msg"`
+	Data interface{}           `json:"data"`
 	body []byte
 }
 

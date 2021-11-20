@@ -14,15 +14,15 @@ import (
 	thisLog "pmo-test4.yz-intelligence.com/kit/component/db/log"
 )
 
+//Gorm
+//  Author: Kevin·CC
+//  Description: GORM实例包装
 type Gorm struct {
-	DB  *gorm.DB
-	SQL *sql.DB
-
-	config.Params
-
-	gormConfig *gorm.Config
-
-	AutoMigrateTables []AutoMigrateTable
+	DB                *gorm.DB           //  DB GORM DB 实例
+	SQL               *sql.DB            //  SQL 数据库原生
+	gormConfig        *gorm.Config       //  gormConfig 数据库配置
+	AutoMigrateTables []AutoMigrateTable //  AutoMigrateTables 自动配置表接口对象
+	config.Params                        //  config.Params 参数
 }
 
 //starter 启动器配置项
@@ -120,6 +120,10 @@ func (m *Gorm) SetAllowGlobalUpdate() *Gorm {
 	return m
 }
 
+//SetLogger
+//  Author: Kevin·CC
+//  Description: 设置日志
+//  Return *Gorm
 func (m *Gorm) SetLogger() *Gorm {
 	thisLog.Set(m.gormConfig, m.Params)
 	return m

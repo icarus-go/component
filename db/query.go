@@ -2,11 +2,11 @@ package db
 
 import (
 	"gorm.io/gorm"
-	"pmo-test4.yz-intelligence.com/kit/component/gins/common"
+	"pmo-test4.yz-intelligence.com/kit/data/params"
 )
 
 //Paginate 分页方法
-func Paginate(paging *common.Paging) func(db *gorm.DB) *gorm.DB {
+func Paginate(paging *params.Paging) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		switch {
 		case paging.PageSize > 10000:
@@ -21,7 +21,7 @@ func Paginate(paging *common.Paging) func(db *gorm.DB) *gorm.DB {
 
 //Order 排序方法
 //  orders 排序对象
-func Order(orders ...*common.Order) func(db *gorm.DB) *gorm.DB {
+func Order(orders ...*params.Order) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		for _, order := range orders {
 			db.Order(order.Join() + " " + order.Sort())
@@ -30,7 +30,7 @@ func Order(orders ...*common.Order) func(db *gorm.DB) *gorm.DB {
 	}
 }
 
-func Cos(cos ...*common.Cos) func(db *gorm.DB) *gorm.DB {
+func Cos(cos ...*params.Cos) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		for _, cos := range cos {
 			db.Select(cos.Join(), cos.Args)
@@ -39,7 +39,7 @@ func Cos(cos ...*common.Cos) func(db *gorm.DB) *gorm.DB {
 	}
 }
 
-func Preload(preload ...*common.Preload) func(db *gorm.DB) *gorm.DB {
+func Preload(preload ...*params.Preload) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		for _, item := range preload {
 			if item.Args == nil {

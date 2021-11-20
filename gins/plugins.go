@@ -3,6 +3,7 @@ package gins
 import (
 	"fmt"
 	"net/http"
+	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
 	"runtime"
 	"sync"
 	"time"
@@ -10,7 +11,6 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/gin-gonic/gin"
-	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
 )
 
 var ctxPool sync.Pool
@@ -78,7 +78,7 @@ func recovery() gin.HandlerFunc {
 
 		// 路由匹配到的情况下，status默认 200
 		if status != http.StatusNotFound && ctx.IsAPI() {
-			if ctx.API.result.Code == apiconstant.RESPONSE_UNKNOW {
+			if ctx.API.result.Code == constant.RESPONSE_UNKNOW {
 				ctx.API.result.Msg = "API空响应"
 			}
 
@@ -152,7 +152,7 @@ func Limit() HandlerFunc {
 
 		//说明最早期的时间还在时间窗口内,还没过期,所以不允许通过
 		if currTime-earlyTime <= 10 {
-			c.API.SetMsg("限流", apiconstant.RESPONSE_REJECT)
+			c.API.SetMsg("限流", constant.RESPONSE_REJECT)
 			c.API.Render()
 			c.Abort()
 			return

@@ -2,7 +2,7 @@ package gins
 
 import (
 	"github.com/gin-gonic/gin"
-	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
+	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
 )
 
 // Context 请求上下文
@@ -28,7 +28,7 @@ func (ctx *Context) reset(ginCtx *gin.Context) {
 	ctx.isAPI = false
 
 	ctx.API.ctx = ctx
-	ctx.API.result.Code = apiconstant.RESPONSE_UNKNOW
+	ctx.API.result.Code = constant.RESPONSE_UNKNOW
 	ctx.API.result.Msg = ""
 	ctx.API.result.Data = nil
 	ctx.API.result.DataKV = nil

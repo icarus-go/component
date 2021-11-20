@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"pmo-test4.yz-intelligence.com/kit/component/mock/constant"
+	"pmo-test4.yz-intelligence.com/kit/component/constant"
 	"strconv"
 	"strings"
 

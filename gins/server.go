@@ -24,13 +24,12 @@ type Server struct {
 	initFuncList  []InitFunc         // 安全初始化函数列表
 	afterFuncList []InitFunc         // 安全执行后初始化函数列表
 	server        *http.Server       // http服务器
+	Config        *Config            //  Config gins 配置
 	rootCtx       context.Context
 	rootCancel    context.CancelFunc
+	on404         HandlerFunc
 
-	on404 HandlerFunc
 	on500 HandlerFunc
-
-	Config *Config
 }
 
 // New 创建新的GinServer实例
@@ -167,6 +166,10 @@ func (gs *Server) AddInit(initFunc ...InitFunc) {
 	}
 }
 
+//AddAfter
+//  Author: Kevin·CC
+//  Description: 后续执行
+//  Param afterFunc
 func (gs *Server) AddAfter(afterFunc ...InitFunc) {
 	if len(afterFunc) > 0 {
 		gs.afterFuncList = append(gs.afterFuncList, afterFunc...)

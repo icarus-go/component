@@ -6,12 +6,12 @@ import (
 	"time"
 
 	"go.uber.org/zap"
-	"pmo-test4.yz-intelligence.com/kit/component/apiconstant"
+	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
 )
 
 // APIError API错误对象
 type APIError struct {
-	code apiconstant.ResponseType
+	code constant.ResponseType
 	msg  string
 	data interface{}
 }
@@ -22,7 +22,7 @@ func (e *APIError) Error() string {
 }
 
 // Code 获取错误码
-func (e *APIError) Code() apiconstant.ResponseType {
+func (e *APIError) Code() constant.ResponseType {
 	return e.code
 }
 
@@ -32,8 +32,8 @@ func (e *APIError) Data() interface{} {
 }
 
 // NewAPIError API错误，默认code：RESPONSE_ERROR
-func NewAPIError(msg string, code ...apiconstant.ResponseType) *APIError {
-	c := apiconstant.RESPONSE_ERROR
+func NewAPIError(msg string, code ...constant.ResponseType) *APIError {
+	c := constant.RESPONSE_ERROR
 	if len(code) == 1 {
 		c = code[0]
 	}
@@ -46,8 +46,8 @@ func NewAPIError(msg string, code ...apiconstant.ResponseType) *APIError {
 }
 
 // NewAPIErrorWithData 附带data信息的API错误，默认code：RESPONSE_ERROR
-func NewAPIErrorWithData(msg string, data interface{}, code ...apiconstant.ResponseType) *APIError {
-	c := apiconstant.RESPONSE_ERROR
+func NewAPIErrorWithData(msg string, data interface{}, code ...constant.ResponseType) *APIError {
+	c := constant.RESPONSE_ERROR
 	if len(code) == 1 {
 		c = code[0]
 	}
@@ -64,7 +64,7 @@ func NewAPIErrorWithData(msg string, data interface{}, code ...apiconstant.Respo
 }
 
 // NewAPIErrorWithLog 创建API错误对象，转化为友好提示并记录日志，默认code：RESPONSE_CRASH
-func NewAPIErrorWithLog(title, rawMsg string, code ...apiconstant.ResponseType) *APIError {
+func NewAPIErrorWithLog(title, rawMsg string, code ...constant.ResponseType) *APIError {
 	errCode := strconv.FormatInt(time.Now().Unix(), 10)
 
 	zap.L().Error("错误信息: ", zap.String("title", title), zap.String("code", errCode), zap.String("content", rawMsg))
@@ -72,7 +72,7 @@ func NewAPIErrorWithLog(title, rawMsg string, code ...apiconstant.ResponseType) 
 	data := make(map[string]string, 1)
 	data["errCode"] = errCode
 
-	c := apiconstant.RESPONSE_CRASH
+	c := constant.RESPONSE_CRASH
 	if len(code) == 1 {
 		c = code[0]
 	}
