@@ -31,13 +31,13 @@ require (
 	github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2 // indirect
 	go.etcd.io/etcd v3.3.25+incompatible
 	go.uber.org/zap v1.19.1
+	golang.org/x/net v0.0.0-20210805182204-aaa1db679c0d // indirect
 	golang.org/x/sys v0.0.0-20210917161153-d61c044b1678 // indirect
 	golang.org/x/time v0.0.0-20210723032227-1f47c861a9ac // indirect
-	golang.org/x/tools v0.1.6 // indirect
 	google.golang.org/grpc v1.40.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/mysql v1.1.2
 	gorm.io/gorm v1.22.2
-	pmo-test4.yz-intelligence.com/kit/data v0.0.3
+	pmo-test4.yz-intelligence.com/kit/data v0.0.4
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
