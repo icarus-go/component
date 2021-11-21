@@ -38,6 +38,6 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/mysql v1.1.2
 	gorm.io/gorm v1.22.2
-	pmo-test4.yz-intelligence.com/kit/data v0.0.5
+	pmo-test4.yz-intelligence.com/kit/data v0.0.8
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
