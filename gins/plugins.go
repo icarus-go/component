@@ -41,6 +41,7 @@ func recovery() gin.HandlerFunc {
 						} else {
 							stack += "\n"
 						}
+
 						stack += fmt.Sprintf("%v:%v", file, line)
 
 						zap.L().Error(stack)

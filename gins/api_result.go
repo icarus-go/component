@@ -22,7 +22,7 @@ type api struct {
 func (a *api) SetError(err error) {
 	a.result.Msg = err.Error()
 
-	zap.L().Error(fmt.Sprintf("%+v", err))
+	zap.L().Info(fmt.Sprintf("接口[%s] - 调用发生错误", a.ctx.Request.URL), zap.Error(err))
 
 	if e, ok := err.(*APIError); ok {
 		a.result.Code = e.code
