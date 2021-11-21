@@ -1,8 +1,6 @@
 package gins
 
 import (
-	"fmt"
-	"go.uber.org/zap"
 	"net/http"
 	selfConstant "pmo-test4.yz-intelligence.com/kit/component/constant"
 	"pmo-test4.yz-intelligence.com/kit/data/params"
@@ -21,8 +19,6 @@ type api struct {
 // SetError 设置错误信息
 func (a *api) SetError(err error) {
 	a.result.Msg = err.Error()
-
-	zap.L().Info(fmt.Sprintf("接口[%s] - 调用发生错误", a.ctx.Request.URL), zap.Error(err))
 
 	if e, ok := err.(*APIError); ok {
 		a.result.Code = e.code
