@@ -129,13 +129,12 @@ func (a *api) Render() {
 
 	if a.rawResult != nil {
 		if a.fileName != "" {
-			a.ctx.Data(http.StatusOK, selfConstant.FileStream.Value(), a.rawResult)
 			a.ctx.Header("Content-Disposition", a.fileName)
+			a.ctx.Data(http.StatusOK, selfConstant.FileStream.Value(), a.rawResult)
 			return
 		}
 
 		a.ctx.Context.Data(http.StatusOK, a.contentType, a.rawResult)
-		a.contentType = selfConstant.JSON.Value()
 		return
 	}
 
