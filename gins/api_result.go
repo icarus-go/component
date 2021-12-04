@@ -128,7 +128,7 @@ func (a *api) Render() {
 		a.result.Data = struct{}{}
 	}
 
-	if a.rawResult != nil {
+	if a.rawResult != nil && a.filename == "" {
 		a.ctx.Context.Data(http.StatusOK, a.contentType, a.rawResult)
 		return
 	}
