@@ -12,7 +12,8 @@ type api struct {
 	ctx         *Context
 	result      result.ApiResult
 	rawResult   []byte
-	fileName    string
+	filepath    string
+	filename    string
 	contentType string
 }
 
@@ -102,10 +103,10 @@ func (a *api) SetRaw(rawResult []byte, contentType selfConstant.ContentType) {
 //  Author: Kevin·CC
 //  Description: 设置文件返回
 //  Param raw
-//  Param fileName
-func (a *api) SetFile(raw []byte, fileName string) {
-	a.fileName = fileName
-	a.rawResult = raw
+//  Param filename
+func (a *api) SetFile(filepath string, fileName string) {
+	a.filename = fileName
+	a.filepath = filepath
 }
 
 // SetRawResult 设置原始内容输出，content-Type为application/json，优先响应
@@ -128,13 +129,14 @@ func (a *api) Render() {
 	}
 
 	if a.rawResult != nil {
-		if a.fileName != "" {
-			a.ctx.Header("Content-Disposition", a.fileName)
-			a.ctx.Data(http.StatusOK, selfConstant.FileStream.Value(), a.rawResult)
-			return
-		}
-
 		a.ctx.Context.Data(http.StatusOK, a.contentType, a.rawResult)
+		return
+	}
+
+	if a.filepath != "" {
+		a.ctx.Header("Content-Transfer-Encoding", "binary")
+		a.ctx.FileAttachment(a.filepath, a.filename)
+		a.ctx.Data(http.StatusOK, selfConstant.FileStream.Value(), a.rawResult)
 		return
 	}
 
