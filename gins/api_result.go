@@ -1,6 +1,7 @@
 package gins
 
 import (
+	"fmt"
 	"net/http"
 	selfConstant "pmo-test4.yz-intelligence.com/kit/component/constant"
 	"pmo-test4.yz-intelligence.com/kit/data/params"
@@ -12,7 +13,6 @@ type api struct {
 	ctx         *Context
 	result      result.ApiResult
 	rawResult   []byte
-	filepath    string
 	filename    string
 	contentType string
 }
@@ -104,9 +104,9 @@ func (a *api) SetRaw(rawResult []byte, contentType selfConstant.ContentType) {
 //  Description: 设置文件返回
 //  Param raw
 //  Param filename
-func (a *api) SetFile(filepath string, fileName string) {
-	a.filename = fileName
-	a.filepath = filepath
+func (a *api) SetFile(filename string, raw []byte) {
+	a.filename = filename
+	a.rawResult = raw
 }
 
 // SetRawResult 设置原始内容输出，content-Type为application/json，优先响应
@@ -133,9 +133,9 @@ func (a *api) Render() {
 		return
 	}
 
-	if a.filepath != "" {
-		a.ctx.Header("Content-Transfer-Encoding", "binary")
-		a.ctx.FileAttachment(a.filepath, a.filename)
+	if a.filename != "" && a.rawResult != nil {
+		a.ctx.Writer.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", a.filename))
+		a.ctx.Data(http.StatusOK, selfConstant.FileStream.Value(), a.rawResult)
 		return
 	}
 

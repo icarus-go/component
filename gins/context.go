@@ -35,7 +35,6 @@ func (ctx *Context) reset(ginCtx *gin.Context) {
 	ctx.API.result.DataKV = nil
 	ctx.API.rawResult = nil
 	ctx.API.filename = ""
-	ctx.API.filepath = ""
 	ctx.API.contentType = selfConstant.JSON.Value()
 
 	ctx.Web.ctx = ctx
