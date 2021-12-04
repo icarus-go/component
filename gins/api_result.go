@@ -136,7 +136,6 @@ func (a *api) Render() {
 	if a.filepath != "" {
 		a.ctx.Header("Content-Transfer-Encoding", "binary")
 		a.ctx.FileAttachment(a.filepath, a.filename)
-		a.ctx.Data(http.StatusOK, selfConstant.FileStream.Value(), a.rawResult)
 		return
 	}
 
