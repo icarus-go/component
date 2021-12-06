@@ -134,7 +134,7 @@ func (a *api) Render() {
 	}
 
 	if a.filename != "" && a.rawResult != nil {
-		a.ctx.Writer.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", a.filename))
+		a.ctx.Writer.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="%s"`, a.filename))
 		a.ctx.Data(http.StatusOK, selfConstant.FileStream.Value(), a.rawResult)
 		return
 	}

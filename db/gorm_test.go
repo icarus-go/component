@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"github.com/fatih/structs"
 	"testing"
 
 	"go.uber.org/zap"
@@ -34,4 +35,18 @@ func TestDefaultNew(t *testing.T) {
 
 	zap.L().Info(fmt.Sprintf("%v", gorm))
 
+}
+
+type A struct {
+	Foo  string
+	Test string
+}
+
+func (a *A) PrintFoo() {
+	fmt.Println("Foo value is " + a.Foo)
+}
+
+func Test_get_FieldName(t *testing.T) {
+	names := structs.Names(A{})
+	fmt.Println(names) // ["Foo", "Bar"]
 }

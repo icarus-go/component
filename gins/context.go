@@ -1,8 +1,12 @@
 package gins
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
+	"net/url"
 	selfConstant "pmo-test4.yz-intelligence.com/kit/component/constant"
+
+	"github.com/tidwall/gjson"
 	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
 )
 
@@ -17,6 +21,36 @@ type Context struct {
 	isAPI bool
 	API   api
 	Web   web
+}
+
+// Parse
+//  Author: Kevin·CC
+//  Description: 解析前端传递参数
+//  Return jsonResult JSON结果
+//  Return err 错误信息
+func (ctx *Context) Parse() (jsonResult *gjson.Result, err error) {
+	body, err := ctx.GetRawData()
+	if err != nil {
+		err = errors.New("json参数读取失败：" + err.Error())
+		return
+	}
+
+	jsonResult = new(gjson.Result)
+	*jsonResult = gjson.ParseBytes(body)
+
+	if !jsonResult.IsObject() {
+		err = errors.New("json参数格式错误")
+	}
+
+	return
+}
+
+// GetQuery
+//  Author: Kevin·CC
+//  Description: 获取前端传递的QUERY参数
+//  Return url.Values URL 参数
+func (ctx *Context) GetQuery() url.Values {
+	return ctx.Request.URL.Query()
 }
 
 // reset 重置Context

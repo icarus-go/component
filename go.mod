@@ -14,6 +14,7 @@ require (
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
+	github.com/fatih/structs v1.1.0
 	github.com/gin-gonic/gin v1.7.4
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/btree v1.0.1 // indirect
@@ -27,6 +28,7 @@ require (
 	github.com/lestrrat-go/strftime v1.0.5 // indirect
 	github.com/prometheus/client_golang v1.11.0 // indirect
 	github.com/soheilhy/cmux v0.1.5 // indirect
+	github.com/tidwall/gjson v1.12.1
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20201229170055-e5319fda7802 // indirect
 	github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2 // indirect
 	go.etcd.io/etcd v3.3.25+incompatible
@@ -38,6 +40,6 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/mysql v1.1.2
 	gorm.io/gorm v1.22.2
-	pmo-test4.yz-intelligence.com/kit/data v0.0.8
+	pmo-test4.yz-intelligence.com/kit/data v0.0.14
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
