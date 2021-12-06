@@ -16,8 +16,19 @@ type CURL struct {
 //  Author: Kevin·CC
 //  Description: 设置数据库实例对象
 //  Param instance
-func (c *CURL) SetDBInstance(instance *gorm.DB) {
+func (c *CURL) SetDBInstance(instance *gorm.DB) *CURL {
 	c.instance = instance
+	return c
+}
+
+// SetModel
+//  Author: Kevin·CC
+//  Description: 设置基础model
+//  Param md
+//  Return *CURL
+func (c *CURL) SetModel(md schema.Tabler) *CURL {
+	c.model = md
+	return c
 }
 
 // Delete
