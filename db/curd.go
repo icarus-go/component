@@ -75,6 +75,22 @@ func (m *CURL) FindOne(info params.IWhere, value interface{}, scopes func(*gorm.
 	return base.Limit(1).Find(&value).Error
 }
 
+// Find
+//  Author: Kevin·CC
+//  Description: 根据IDs进行搜索
+//  Param info 主键筛选
+//  Param value 映射值
+//  Param scopes 其他筛选
+//  Param idColumnName 主键ID名称
+//  Return error 错误信息
+func (m *CURL) Find(info params.IWhere, value interface{}, scopes func(*gorm.DB) *gorm.DB, idColumnName ...string) error {
+	tx := m.DB.Scopes(info.Scopes(idColumnName...))
+	if scopes != nil {
+		tx.Scopes(scopes)
+	}
+	return tx.Find(&value).Error
+}
+
 // Update
 //  Author: Kevin·CC
 //  Description: 更新
