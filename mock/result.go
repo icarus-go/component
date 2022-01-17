@@ -1,8 +1,8 @@
 package mock
 
 import (
-	"pmo-test4.yz-intelligence.com/kit/data/json"
-	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
+	"github.com/icarus-go/data/json"
+	"github.com/icarus-go/data/result/constant"
 )
 
 type Result struct {

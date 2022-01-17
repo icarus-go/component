@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
+	thisConfig "github.com/icarus-go/component/db/config"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	thisConfig "pmo-test4.yz-intelligence.com/kit/component/db/config"
 )
 
 func Set(gormConfig *gorm.Config, params thisConfig.Params) *gorm.Config {

@@ -6,12 +6,12 @@ import (
 	"os"
 	"time"
 
+	"github.com/icarus-go/component/db/config"
+	thisLog "github.com/icarus-go/component/db/log"
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-	"pmo-test4.yz-intelligence.com/kit/component/db/config"
-	thisLog "pmo-test4.yz-intelligence.com/kit/component/db/log"
 )
 
 //Gorm

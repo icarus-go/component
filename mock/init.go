@@ -2,7 +2,7 @@ package mock
 
 import (
 	"github.com/gin-gonic/gin"
-	"pmo-test4.yz-intelligence.com/kit/component/gins"
+	"github.com/icarus-go/component/gins"
 )
 
 // Engine 服务对象

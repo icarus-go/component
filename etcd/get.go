@@ -1,9 +1,9 @@
 package etcd
 
 import (
+	"github.com/icarus-go/component/etcd/constant"
+	"github.com/icarus-go/component/etcd/gin"
 	"go.etcd.io/etcd/clientv3"
-	"pmo-test4.yz-intelligence.com/kit/component/etcd/constant"
-	"pmo-test4.yz-intelligence.com/kit/component/etcd/gin"
 	"strings"
 	"time"
 )

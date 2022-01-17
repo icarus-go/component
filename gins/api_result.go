@@ -2,11 +2,11 @@ package gins
 
 import (
 	"fmt"
+	selfConstant "github.com/icarus-go/component/constant"
+	"github.com/icarus-go/data/params"
+	"github.com/icarus-go/data/result"
+	"github.com/icarus-go/data/result/constant"
 	"net/http"
-	selfConstant "pmo-test4.yz-intelligence.com/kit/component/constant"
-	"pmo-test4.yz-intelligence.com/kit/data/params"
-	"pmo-test4.yz-intelligence.com/kit/data/result"
-	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
 )
 
 type api struct {

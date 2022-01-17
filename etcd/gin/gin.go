@@ -2,9 +2,9 @@ package gin
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/icarus-go/component/etcd/constant"
+	"github.com/icarus-go/component/etcd/errors"
 	"os"
-	"pmo-test4.yz-intelligence.com/kit/component/etcd/constant"
-	"pmo-test4.yz-intelligence.com/kit/component/etcd/errors"
 	"regexp"
 	"strings"
 )

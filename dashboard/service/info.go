@@ -3,7 +3,7 @@ package service
 import (
 	"time"
 
-	"pmo-test4.yz-intelligence.com/kit/component/gins"
+	"github.com/icarus-go/component/gins"
 )
 
 // Info 服务信息

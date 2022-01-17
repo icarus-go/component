@@ -2,8 +2,8 @@ package db
 
 import (
 	"errors"
+	"github.com/icarus-go/data/params"
 	"gorm.io/gorm"
-	"pmo-test4.yz-intelligence.com/kit/data/params"
 )
 
 // MustPaginate

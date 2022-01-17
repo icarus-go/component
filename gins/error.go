@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/icarus-go/data/result/constant"
 	"go.uber.org/zap"
-	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
 )
 
 // APIError API错误对象

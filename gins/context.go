@@ -3,11 +3,11 @@ package gins
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
+	selfConstant "github.com/icarus-go/component/constant"
 	"net/url"
-	selfConstant "pmo-test4.yz-intelligence.com/kit/component/constant"
 
+	"github.com/icarus-go/data/result/constant"
 	"github.com/tidwall/gjson"
-	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
 )
 
 // Context 请求上下文

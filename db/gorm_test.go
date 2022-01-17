@@ -5,8 +5,8 @@ import (
 	"github.com/fatih/structs"
 	"testing"
 
+	"github.com/icarus-go/component/db/config"
 	"go.uber.org/zap"
-	"pmo-test4.yz-intelligence.com/kit/component/db/config"
 )
 
 func TestNew(t *testing.T) {

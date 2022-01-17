@@ -1,7 +1,7 @@
 package dashboard
 
 import (
-	"pmo-test4.yz-intelligence.com/kit/component/dashboard/service"
+	"github.com/icarus-go/component/dashboard/service"
 )
 
 // DashBoard DashBoard

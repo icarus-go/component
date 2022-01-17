@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"github.com/icarus-go/component/constant"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"pmo-test4.yz-intelligence.com/kit/component/constant"
 	"strconv"
 	"strings"
 

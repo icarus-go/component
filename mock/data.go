@@ -1,8 +1,8 @@
 package mock
 
 import (
+	"github.com/icarus-go/data/json"
 	"net/url"
-	"pmo-test4.yz-intelligence.com/kit/data/json"
 )
 
 // JSON 模拟请求参数对象

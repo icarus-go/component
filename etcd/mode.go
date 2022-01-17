@@ -1,7 +1,7 @@
 package etcd
 
 import (
-	"pmo-test4.yz-intelligence.com/kit/component/etcd/constant"
+	"github.com/icarus-go/component/etcd/constant"
 )
 
 type System interface {

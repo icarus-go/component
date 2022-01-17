@@ -2,8 +2,8 @@ package gins
 
 import (
 	"fmt"
+	"github.com/icarus-go/data/result/constant"
 	"net/http"
-	"pmo-test4.yz-intelligence.com/kit/data/result/constant"
 	"runtime"
 	"sync"
 	"time"

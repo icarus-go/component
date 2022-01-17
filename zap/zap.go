@@ -2,12 +2,12 @@ package zap
 
 import (
 	"fmt"
+	"github.com/icarus-go/component/zap/constant"
 	logs "github.com/lestrrat-go/file-rotatelogs"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
 	"path"
-	"pmo-test4.yz-intelligence.com/kit/component/zap/constant"
 	"time"
 )
 
