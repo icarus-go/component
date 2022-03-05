@@ -34,7 +34,7 @@ func newResolver(masterConfigs []config.Params, slaveConfigs []config.Params, fn
 		masters = append(masters, master)
 	}
 
-	slaves := make([]*Gorm, len(slaveConfigs))
+	slaves := make([]*Gorm, 0, len(slaveConfigs))
 	for _, slaveConfig := range slaveConfigs {
 		item, err := New(slaveConfig, fn)
 		if err != nil {
